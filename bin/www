@@ -9,8 +9,6 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 var server = http.createServer(app);
-
-// Socket.IO
 const io = new Server(server);
 
 // Usar sesión en Socket.IO
@@ -18,13 +16,14 @@ io.use((socket, next) => {
     sessionMiddleware(socket.request, {}, next);
 });
 
-// Usuarios conectados y historial
-const users = {}; // username -> socket.id
+// Usuarios conectados y mensajes
+const users = {};
 let messages = []; // últimos 50 mensajes
 
 io.on('connection', socket => {
-    const username = socket.request.session.user;
-    if(!username) return socket.disconnect(); // solo usuarios logueados
+    const username = socket.request.session?.user;
+    if(!username) return socket.disconnect();
+
     socket.user = username;
     users[username] = socket.id;
 
@@ -55,7 +54,6 @@ io.on('connection', socket => {
     });
 });
 
-// Arrancar servidor
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);

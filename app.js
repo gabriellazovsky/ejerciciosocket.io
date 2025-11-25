@@ -29,12 +29,11 @@ const sessionMiddleware = session({
 });
 app.use(sessionMiddleware);
 
-// Routers
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/chat', chatRouter);
 
-// catch 404 and forward to error handler
+// catch 404
 app.use(function(req, res, next) {
     next(createError(404));
 });

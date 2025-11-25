@@ -5,7 +5,7 @@ const input = document.getElementById('input');
 
 form.addEventListener('submit', e => {
     e.preventDefault();
-    if(input.value) {
+    if(input.value){
         socket.emit('chat', input.value);
         input.value = '';
     }
