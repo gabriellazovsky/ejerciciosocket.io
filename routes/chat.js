@@ -1,9 +1,15 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-    res.render('chat', { title: 'SW1' });
+// Middleware de autenticación
+function authMiddleware(req, res, next){
+    if(req.session.user) return next();
+    res.redirect('/');
+}
+
+/* GET chat page */
+router.get('/', authMiddleware, (req, res) => {
+    res.render('chat', { user: req.session.user });
 });
 
 module.exports = router;

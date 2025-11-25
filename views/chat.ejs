@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script src="/socket.io/socket.io.js" defer></script>
-    <script src="/javascripts/chat.js" defer></script>
+    <title>Chat</title>
 </head>
 <body>
-<ul id="messages"></ul>
+<h1>Chat</h1>
+<p>Usuario: <%= user %></p>
 <form id="form">
-    <input id="input">
-    <button>Send</button>
+    <input id="input" autocomplete="off">
+    <button>Enviar</button>
 </form>
+<ul id="messages"></ul>
+
+<script>
+    window.USERNAME = "<%= user %>";
+</script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/chat.js"></script>
 </body>
 </html>

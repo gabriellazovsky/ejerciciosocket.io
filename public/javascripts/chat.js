@@ -1,20 +1,32 @@
 const socket = io();
-
+const messages = document.getElementById('messages');
 const form = document.getElementById('form');
 const input = document.getElementById('input');
-const messages = document.getElementById('messages');
 
-form.addEventListener('submit', (e)=> {
+form.addEventListener('submit', e => {
     e.preventDefault();
-    if(input.value){
+    if(input.value) {
         socket.emit('chat', input.value);
         input.value = '';
     }
 });
 
-socket.on('chat', (msg) => {
-    console.log("Mensaje recibido");
-    const item = document.createElement("li");
-    item.textContent = msg;
+socket.on('history', msgs => {
+    msgs.forEach(msg => {
+        const item = document.createElement('li');
+        item.textContent = `${msg.user}: ${msg.message}`;
+        messages.appendChild(item);
+    });
+});
+
+socket.on('chat', msg => {
+    const item = document.createElement('li');
+    item.textContent = `${msg.user}: ${msg.message}`;
+    messages.appendChild(item);
+});
+
+socket.on('private', msg => {
+    const item = document.createElement('li');
+    item.textContent = `(Privado) ${msg.from}: ${msg.message}`;
     messages.appendChild(item);
 });
